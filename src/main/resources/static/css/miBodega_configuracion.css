@@ -1,0 +1,59 @@
+.content h5{
+    font-size: 32px;
+    color: #4060B2;
+    font-weight: regular;
+    text-align: left;
+}
+
+.cuadro {
+  background: transparent; /* conserva el estilo .cuadro existente */
+  margin-bottom: 0;
+}
+.cuadro .subcuadro {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  color: #222;
+}
+
+/* Separación entre cuadros */
+.cuadro + .cuadro {
+  margin-top: 18px;
+}
+
+/* Inputs y etiquetas */
+.form-label {
+  font-weight: 500;
+  color: #333;
+}
+.form-control {
+  border-radius: 6px;
+  border: 1px solid #dfe6f0;
+  background: #fff;
+}
+
+/* Botón similar al estilo del registro */
+.btn-ancho {
+  min-width: 220px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  background-color: #4060B2;
+  border: none;
+}
+
+/* Responsive: en pantallas pequeñas los inputs ocupan todo el ancho */
+@media (max-width: 576px) {
+  .btn-ancho { width: 100%; min-width: 0; }
+  .cuadro .subcuadro { padding: 12px; }
+}
+/*
+.footer {
+  background-color: #4060B2;
+  color: #fff;
+  width: 100vw;
+  left: 0;
+  margin-left: calc(-50vw + 50%);
+  position: relative;
+}   
+*/

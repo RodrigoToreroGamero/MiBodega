@@ -1,0 +1,66 @@
+.content h5{
+    font-size: 32px;
+    color: #4060B2;
+    font-weight: regular;
+    text-align: left;
+
+}
+.ventas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.ventas-header h5 {
+  margin: 0;
+}
+.filtrar {
+    border: none;
+    outline: none;
+    background: #4060B2;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.contenedor {
+      display: flex;     /* activa flexbox */
+      gap: 20px;         /* espacio entre cajas */
+    }
+
+.caja {
+    background: white;
+    font-size: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex: 1;           /* todas ocupan el mismo ancho */
+    text-align: center;
+    }
+.numero {
+    font-size: 40px;
+    color: #1d1d1d;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.cuadro {
+    background: white;
+    font-size: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex: 1;
+    text-align: center;
+    margin-top: 32px; /* <-- Agrega este margen superior */
+}
+.subcuadro .row {
+    margin-bottom: 35px;
+}
+
+.subcuadro .row:not(:last-child) {
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}

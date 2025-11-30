@@ -1,0 +1,115 @@
+body {
+  background-color: #cbd3e1;
+}
+
+.content h5{
+    font-size: 32px;
+    color: #4060B2;
+    font-weight: regular;
+    text-align: left;
+
+}
+/* Colores para el buscador*/
+.form-control {
+    background-color: #eaf1fb;
+    border: 2px solid #4060B2;
+    color: #4060B2;
+    font-weight: 500;
+}
+.form-control::placeholder {
+    color: #4060B2;
+    opacity: 0.7;
+}
+/*color del los botones reponer productos*/
+.btn-success {
+  background-color: #4060B2;
+  color: #fff;
+  border: none;
+}
+.btn-success:hover {
+  background-color: #274080;
+  color: #fff;
+}
+
+/*letra del total*/
+.fila-total {
+  font-weight: bold;
+  background: #f5f5f5;
+}
+.btn-ancho {
+  min-width: 220px;
+}
+.ventas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.ventas-header h5 {
+  margin: 0;
+}
+.filtrar {
+    border: none;
+    outline: none;
+    background: #4060B2;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.contenedor {
+      display: flex;     /* activa flexbox */
+      gap: 20px;         /* espacio entre cajas */
+    }
+
+.caja {
+    background: white;
+    font-size: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex: 1;           /* todas ocupan el mismo ancho */
+    text-align: left;
+    }
+
+.cuadro {
+    background: white;
+    font-size: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex: 1;
+    text-align: center;
+    margin-top: 32px; /* <-- Agrega este margen superior */
+}
+.subcuadro .row {
+    margin-bottom: 35px;
+}
+
+.subcuadro .row:not(:last-child) {
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.btn-volver {
+  background-color: #4060B2;
+  color: #fff;
+  border: none;
+}
+.btn-volver:hover {
+  background-color: #274080;
+  color: #fff;
+}
+
+.btn-guardar {
+  background-color: #4060B2;
+  color: #fff;
+  border: none;
+}
+.btn-guardar:hover {
+  background-color: #274080;
+  color: #fff;
+}

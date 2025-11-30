@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MiBodega</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Referencia a los archivos css -->
+        <link href="/css/plantillaMiBodega.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/miBodega_cierre.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <!-- Script JavaScript -->
+        <script src="/static/js/plantilla_MiBodega.js"></script>
+
+    <body>
+        <!-- Header -->
+        <div class="header">
+            <!-- Botón hamburguesa -->
+            <button class="btn" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                <i class="bi bi-list fs-3"></i>
+            </button>
+            <div>
+                <!-- Variables dinámicas con Thymeleaf para la fecha y la hora -->
+                <span class="text-primary" id="fecha" th:text="${fecha}">FECHA: 27/09/25</span>
+                <span class="ms-3 text-primary" id="hora" th:text="${hora}">HORA: 9:00</span>
+            </div>
+        </div>
+
+        <!-- Sidebar Offcanvas -->
+        <div class="offcanvas offcanvas-start sidebar" tabindex="-1" id="sidebar">
+            <div class="offcanvas-header">
+                <!-- Logo con Thymeleaf para las imágenes -->
+                <img th:src="@{/SVG/LogoMiBodega.svg}" alt="Logo" width="40" class="me-2">
+                <h5 class="offcanvas-title"><span>MiBodega</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- Información del usuario con Thymeleaf -->
+                <div class="user text-center">
+                    <i class="bi bi-person-circle"></i>
+                    <p class="mt-2">DANIEL HUAMANI</p>
+                </div>
+
+                <div class="nav flex-column">
+                    <a th:href="@{/mibodega/dashboard}"><button class="btn btn-primary">DASHBOARD</button></a>
+                    <a th:href="@{/mibodega/ventas}"><button class="btn btn-primary">VENTAS</button></a>
+                    <a th:href="@{/mibodega/registro}"><button class="btn btn-primary">REGISTRO DE COMPRAS</button></a>
+                    <a th:href="@{/mibodega/inventario}"><button class="btn btn-primary">INVENTARIO</button></a>
+                    <a th:href="@{/mibodega/cierre}"><button class="btn btn-dark">CIERRE DE CAJA</button></a>
+                    <a th:href="@{/mibodega/configuracion}"><button class="btn btn-primary">CONFIGURACIÓN</button></a>
+                    <a th:href="@{/mibodega/cerrarsesion}"><button class="btn btn-primary">CERRAR SESIÓN</button></a>
+                </div>
+            </div>
+        </div>
+        <!-- Contenido -->
+        <div class="content">
+            <div class="ventas-header">
+                <h5>CIERRE DE CAJA</h5>
+            </div>
+
+            <div class="contenedor">
+                <div class="caja">Efectivo 
+                    <div class="numero">25,254</div>
+                </div>
+                <div class="caja">Tarjeta
+                    <div class="numero">5,000</div>
+                </div>
+                <div class="caja">Transferencia
+                    <div class="numero">10,000</div>
+                </div>
+            </div>
+
+            <div class="subcuadro resumen-table">
+                <div class="ventas-header">
+                    <h5>Resumen</h5>
+                </div>
+                <div class="resumen-row">
+                    <div class="resumen-label">Dinero inicial</div>
+                    <div class="resumen-amount">S/ 500</div>
+                </div>
+
+                <div class="resumen-sep"></div>
+
+                <div class="resumen-section-title">Ventas del día</div>
+
+                <div class="resumen-sep"></div>
+
+                <div class="resumen-row">
+                    <div class="resumen-label">Efectivo</div>
+                    <div class="resumen-amount">S/ 25,254</div>
+                </div>
+                <div class="resumen-row">
+                    <div class="resumen-label">Tarjeta</div>
+                    <div class="resumen-amount">S/ 5,000</div>
+                </div>
+                <div class="resumen-row">
+                    <div class="resumen-label">Transferencia</div>
+                    <div class="resumen-amount">S/ 10,000</div>
+                </div>
+
+                <div class="resumen-sep strong"></div>
+
+                <div class="resumen-row total">
+                    <div class="resumen-label">Total esperado</div>
+                    <div class="resumen-amount">S/ 40,254</div>
+                </div>
+
+                <div class="resumen-sep"></div>
+
+                <div class="resumen-row">
+                    <div class="resumen-label">Dinero real contado</div>
+                    <div class="resumen-amount">
+                        <input id="dinero-real" style="width:140px; text-align:right;">
+                    </div>
+                </div>
+                <div class="resumen-row diferencia">
+                    <div class="resumen-label">Diferencia</div>
+                    <div class="resumen-amount diferencia-amount">S/ -500.00</div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-3">
+                    <button id="btn-finalizar" class="btn btn-finalizar">Finalizar cierre</button>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="footer py-3 text-center">
+            <span> &copy; 2025 MiBodega. Todos los derechos reservados.</span>
+        </footer>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+        <!--
+        <link rel="stylesheet" href="../static/css/miBodega_cierre.css" type="text/css"/>
+        <link rel="stylesheet" href="../static/css/miBodega_cierre.css" type="text/css">
+        -->
+    </body>
+</html>

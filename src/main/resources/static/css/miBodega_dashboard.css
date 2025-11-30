@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+.content h5{
+    font-size: 32px;
+    color: #4060B2;
+    font-weight: regular;
+    text-align: left;
+}
+
+.ventas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.ventas-header h5 {
+  margin: 0;
+}
+.filtrar {
+    border: none;
+    outline: none;
+    background: #4060B2;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.contenedor {
+    display: flex;     /* activa flexbox */
+    gap: 20px;         /* espacio entre cajas */
+    flex-wrap: wrap;
+}
+
+.caja {
+    background: white;
+    font-size: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex: 1;           /* todas ocupan el mismo ancho */
+    text-align: center;
+    min-width: 300px;
+}
+.numero {
+    font-size: 40px;
+    color: #1d1d1d;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.cuadro {
+    background: white;
+    font-size: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex: 1;
+    text-align: center;
+    margin-top: 32px; /* <-- Agrega este margen superior */
+}
+
+
+
+.cuadro ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.cuadro ul li {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-text {
+  margin-bottom: 5px;
+  text-align: justify;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #888;
+  text-align: left;   /* Alinea la fecha a la izquierda */
+  align-self: flex-start; /* Opcional, asegura alineación en flexbox */
+}
+
+.green-notification {
+  background-color: #cce8c9;
+}
+
+.green-notification span {
+  color: #2ecc71;
+  font-size: 40px;
+}
+
+.red-notification {
+  background-color: #e8cbc9;
+}
+
+.red-notification span {
+  color: #e74c3c;
+  font-size: 40px;
+}
+
+.yellow-notification {
+  background-color: #f8f3c5;
+}
+
+.yellow-notification span {
+  color: #f39c12;
+  font-size: 40px;
+}
+
+.blue-notification {
+  background-color: #c5e3f8;
+}
+
+.blue-notification span {
+  color: #3498db;
+  font-size: 40px;
+}
+
+.separator {
+  height: 1px;
+  background-color: #ddd;
+  margin: 20px 0;
+}
+
+
+
+

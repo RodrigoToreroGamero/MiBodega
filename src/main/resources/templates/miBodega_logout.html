@@ -1,0 +1,15 @@
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerrar Sesión en MiBodega</title>
+    <link rel="stylesheet" href="/css/miBodega_login.css">
+</head>
+    <body>
+        <form th:action="@{/mibodega/logout}" method="post">
+            <h3>¿Deseas Cerrar Sesión?</h3>
+            <button type="submit">Si</button>
+            <button type="button" onclick="history.back()">No</button>
+        </form>
+    </body>
+</html>

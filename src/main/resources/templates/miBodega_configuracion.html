@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MiBodega</title>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Referencia a los archivos css -->
+        <link href="/css/plantillaMiBodega.css" rel="stylesheet" type="text/css"/>
+        <link href="/css/miBodega_configuracion.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <!-- Script JavaScript -->
+        <script src="/static/js/plantilla_MiBodega.js"></script>
+
+    <body>
+        <!-- Header -->
+        <div class="header">
+            <!-- Botón hamburguesa -->
+            <button class="btn" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                <i class="bi bi-list fs-3"></i>
+            </button>
+            <div>
+                <!-- Variables dinámicas con Thymeleaf para la fecha y la hora -->
+                <span class="text-primary" id="fecha" th:text="${fecha}">FECHA: 27/09/25</span>
+                <span class="ms-3 text-primary" id="hora" th:text="${hora}">HORA: 9:00</span>
+            </div>
+        </div>
+
+        <!-- Sidebar Offcanvas -->
+        <div class="offcanvas offcanvas-start sidebar" tabindex="-1" id="sidebar">
+            <div class="offcanvas-header">
+                <!-- Logo con Thymeleaf para las imágenes -->
+                <img th:src="@{/SVG/LogoMiBodega.svg}" alt="Logo" width="40" class="me-2">
+                <h5 class="offcanvas-title"><span>MiBodega</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- Información del usuario con Thymeleaf -->
+                <div class="user text-center">
+                    <i class="bi bi-person-circle"></i>
+                    <p class="mt-2">DANIEL HUAMANI</p>
+                </div>
+
+                <div class="nav flex-column">
+                    <a th:href="@{/mibodega/dashboard}"><button class="btn btn-primary">DASHBOARD</button></a>
+                    <a th:href="@{/mibodega/ventas}"><button class="btn btn-primary">VENTAS</button></a>
+                    <a th:href="@{/mibodega/registro}"><button class="btn btn-primary">REGISTRO DE COMPRAS</button></a>
+                    <a th:href="@{/mibodega/inventario}"><button class="btn btn-primary">INVENTARIO</button></a>
+                    <a th:href="@{/mibodega/cierre}"><button class="btn btn-primary">CIERRE DE CAJA</button></a>
+                    <a th:href="@{/mibodega/configuracion}"><button class="btn btn-dark">CONFIGURACIÓN</button></a>
+                    <a th:href="@{/mibodega/cerrarsesion}"><button class="btn btn-primary">CERRAR SESIÓN</button></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="ventas-header">
+                <h5>CONFIGURACION</h5>
+            </div>
+
+            <!-- CUADRO 1: Información personal -->
+            <div class="cuadro mt-3">
+                <h5>Información personal</h5>
+                <div class="subcuadro">
+                    <div class="mb-3">
+                        <label for="cfg-nombre" class="form-label">Nombre completo</label>
+                        <input id="cfg-nombre" type="text" class="form-control" placeholder="Daniel Huamani ">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cfg-email" class="form-label">Correo electrónico</label>
+                        <input id="cfg-email" type="email" class="form-control" placeholder="danielhumani@gmail.com">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cfg-rol" class="form-label">Rol</label>
+                        <select id="cfg-rol" class="form-control">
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cfg-fecha" class="form-label">Fecha de registro</label>
+                        <input id="cfg-fecha" type="text" class="form-control" value="2025-09-27" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CUADRO 2: Seguridad -->
+            <div class="cuadro mt-3">
+                <h5>Seguridad — Cambiar contraseña</h5>
+                <div class="subcuadro">
+                    <div class="mb-3">
+                        <label for="cfg-actual" class="form-label">Contraseña actual</label>
+                        <input id="cfg-actual" type="password" class="form-control" placeholder="Contraseña actual">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cfg-nueva" class="form-label">Nueva contraseña</label>
+                        <input id="cfg-nueva" type="password" class="form-control" placeholder="Nueva contraseña">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cfg-confirm" class="form-label">Confirmar nueva contraseña</label>
+                        <input id="cfg-confirm" type="password" class="form-control" placeholder="Confirmar nueva contraseña">
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-3">
+                        <button class="btn btn-success btn-ancho" type="button">
+                            <i class="bi bi-save"></i> Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <footer class="footer py-3 text-center">
+            <span> &copy; 2025 MiBodega. Todos los derechos reservados.</span>
+        </footer>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    </body>
+</html>

@@ -1,0 +1,107 @@
+body {
+  background-color: #cbd3e1;
+  margin: 0;
+}
+.content h5{
+    font-size: 32px;
+    color: #4060B2;
+    font-weight: regular;
+    text-align: left;
+}
+
+.contenedor {
+      display: flex;     /* activa flexbox */
+      gap: 20px;         /* espacio entre cajas */
+    }
+
+.caja {
+    background: white;
+    font-size: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex: 1;           /* todas ocupan el mismo ancho */
+    text-align: center;
+    }
+.numero {
+    font-size: 40px;
+    color: #1d1d1d;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+
+.subcuadro.resumen-table {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  color: #222;
+  margin-top: 28px; /* separa la caja resumen de los cuadros superiores */
+}
+
+/* estilo filas y separadores */
+.resumen-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+}
+.resumen-label { color: #333; font-weight: 500; }
+.resumen-amount { color: #4060B2; font-weight: 600; min-width:120px; text-align:right; }
+
+.resumen-sep { border-bottom: 1px solid #e6e9ef; margin: 8px 0; }
+.resumen-sep.strong { border-bottom: 2px solid #4060B2; margin: 12px 0; }
+
+/* input dinero real */
+#dinero-real {
+  background: #fff;
+  border: 1px solid #dfe6f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.resumen-row.diferencia {
+  margin-top: 12px;
+  padding: 10px;
+  background: #f8acac;
+  border: 1px solid #802530; 
+  border-radius: 6px;
+  align-items: center;
+}
+.resumen-row.diferencia .resumen-label {
+  color: #333;
+  font-weight: 600;
+}
+
+.diferencia-amount {
+  color: #4060B2; 
+  font-weight: 700;
+  text-align: right;
+  min-width: 120px;
+}
+
+.btn-finalizar {
+  background-color: #4060B2;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;        /* más padding horizontal */
+  border-radius: 6px;
+  font-weight: 600;
+  min-width: 500px;         /* ancho mínimo (ajusta según necesites) */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;              /* cambia a width: 100% para ancho completo */
+}
+/*
+.footer {
+  background-color: #4060B2;
+  color: #fff;
+  width: 100vw;
+  left: 0;
+  margin-left: calc(-50vw + 50%);
+  position: relative;
+}
+*/
