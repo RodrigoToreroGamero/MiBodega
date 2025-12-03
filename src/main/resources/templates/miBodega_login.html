@@ -21,7 +21,9 @@
                     <img th:src="@{/SVG/LogoMiBodega.svg}" alt="Logo de MiBodega" style="max-width: 100%; height: auto; width: 150px;">
                 </div>
 
-                <form id="formLogin" class="form-post" data-endpoint="/api/autenticacion/login">
+                <form id="formLogin" class="form-post" 
+                      method="post"
+                      data-endpoint="/api/autenticacion/login">
                     <div class="mb-3">
                         <label for="correo" class="form-label">Correo electrónico</label>
                         <input name="correo" type="email" id="correo" class="form-control" placeholder="correo@ejemplo.com" required>

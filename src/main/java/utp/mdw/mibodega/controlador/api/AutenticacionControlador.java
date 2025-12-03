@@ -49,7 +49,7 @@ public class AutenticacionControlador {
                     .httpOnly(true)
                     //.secure(true) // solo por https
                     .path("/")
-                    .sameSite("Strict") // frontend y backend en el mismo dominio
+                    .sameSite("Lax") // frontend y backend en el mismo dominio
                     .maxAge(Duration.ofHours(10)) // 10 horas;
                     .build();
             respuesta.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());

@@ -116,8 +116,8 @@ public class RegistroControlador {
     }
 
     @PostMapping("/registro/confirmar-seleccion")
-    @ResponseBody
     /*
+    @ResponseBody    
     public ResponseEntity<Venta> confirmarSeleccion(@RequestBody Venta venta) {
         for(DetalleVenta detalle : venta.getDetalles()) {
             Producto p = this.productoServicio.obtenerPorId(detalle.getProducto().getId());
