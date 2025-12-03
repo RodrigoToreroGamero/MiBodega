@@ -1,6 +1,7 @@
 package utp.mdw.mibodega.configuracion;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,11 +13,8 @@ import utp.mdw.mibodega.repositorio.UsuarioRepositorio;
 @Service
 public class ImplementacionServicioDetallesUsuario implements UserDetailsService {
 
-    private final UsuarioRepositorio usuarioRepo;
-
-    public ImplementacionServicioDetallesUsuario(UsuarioRepositorio usuarioRepo) {
-        this.usuarioRepo = usuarioRepo;
-    }
+    @Autowired
+    private UsuarioRepositorio usuarioRepo;   
        
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {

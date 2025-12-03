@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import utp.mdw.mibodega.modelo.DetalleVenta;
@@ -42,6 +45,7 @@ public class RegistroControlador {
     @Autowired
     private VentaServicio ventaServicio;
 
+    
     @ModelAttribute("detallesSeleccionados")
     public List<DetalleVenta> detallesSeleccionados() {
         return new ArrayList<>();
@@ -51,6 +55,7 @@ public class RegistroControlador {
     public Venta venta() {
         return new Venta();
     }
+
 
     @GetMapping("/registro")
     public String mostrarRegistro(Model model, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados) {
@@ -111,6 +116,20 @@ public class RegistroControlador {
     }
 
     @PostMapping("/registro/confirmar-seleccion")
+    /*
+    @ResponseBody    
+    public ResponseEntity<Venta> confirmarSeleccion(@RequestBody Venta venta) {
+        for(DetalleVenta detalle : venta.getDetalles()) {
+            Producto p = this.productoServicio.obtenerPorId(detalle.getProducto().getId());
+            if(p.getStock() < detalle.getCantidad()) {
+                return ResponseEntity.badRequest().build();
+            }
+            p.setStock(p.getStock() - detalle.getCantidad());
+            this.productoServicio.guardar(p);
+        }
+        Venta guardada = this.ventaServicio.guardarVentaSimple(venta);
+        return ResponseEntity.ok(guardada);
+    */
     public String confirmarSeleccion(@RequestParam Long idProducto, @RequestParam Integer cantidad, Model model, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados, @ModelAttribute("venta") Venta venta) {
         Producto p = this.productoServicio.obtenerPorId(idProducto);
 
@@ -137,6 +156,7 @@ public class RegistroControlador {
         model.addAttribute("venta", venta);
         model.addAttribute("productoSeleccionado", null);
         return "miBodega_registro";
+        
     }
 
     @PostMapping("/registro/eliminar-seleccion")
@@ -167,7 +187,10 @@ public class RegistroControlador {
             venta.setEstado(Estado.pendiente);
         }
 
-        Usuario u = this.usuarioServicio.obtenerPorId(1L); // Valor asignado para pruebas, ELIMINAR una vez exista login.
+        Authentication autenticacion = SecurityContextHolder.getContext().getAuthentication();
+        String correo = autenticacion.getName(); 
+        
+        Usuario u = this.usuarioServicio.obtenerPorCorreo(correo).orElse(null); 
         if (u == null) {
             return "error";
         }
@@ -187,7 +210,7 @@ public class RegistroControlador {
             }
         }
 
-        Venta ventaSimple = this.ventaServicio.guardarVentaSimple(venta);
+        this.ventaServicio.guardarVentaSimple(venta);
 
         status.setComplete();
         return "miBodega_registro";
