@@ -20,7 +20,7 @@
                 <div class="text-center mb-4">
                     <img th:src="@{/SVG/LogoMiBodega.svg}" alt="Logo de MiBodega" style="max-width: 100%; height: auto; width: 150px;">
                 </div>
-                
+
                 <form id="formLogin" class="form-post" data-endpoint="/api/autenticacion/login">
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo electrónico</label>
@@ -41,7 +41,7 @@
                         <button type="submit" class="btn btn-success btn-ancho">Iniciar sesión</button>
                     </div>
                 </form>
-                
+
                 <div th:if="${param.error}">
                     <p style="color:red">Correo o contraseña incorrectos</p>
                 </div>
@@ -50,6 +50,6 @@
                 </div>
             </div>
         </div>
-        <script src="../static/js/formulario_jwt.js" type="text/javascript"></script>            
+        <script src="/js/formulario_jwt.js" type="text/javascript"></script>            
     </body>
 </html>

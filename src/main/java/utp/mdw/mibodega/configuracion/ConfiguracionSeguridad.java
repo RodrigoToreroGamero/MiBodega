@@ -1,5 +1,6 @@
 package utp.mdw.mibodega.configuracion;
 
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +33,7 @@ public class ConfiguracionSeguridad {
 
     @Bean
     public PasswordEncoder codificadorContrasenia() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12); // 12 rondas de hashing para la contraseña
     }
 
     @Bean
@@ -39,11 +41,18 @@ public class ConfiguracionSeguridad {
         return httpSecurity
                 // JWT NO REQUIERE CSRF
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(peticion -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("http://localhost:8080"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(List.of("*"));
+                    return config;                
+                }))
                 //CONFIGURA CARACTERÍSTICAS DE SEGURIDAD      
                 .authorizeHttpRequests(auth -> {
-                    //ENDPOINT DE ACCESO LIBRE
-                    auth.requestMatchers("/api/autenticacion/login").permitAll();
-                    auth.requestMatchers("/mibodega/login", "/css/**", "/js/**", "/SVG/**").permitAll();
+                    //ENDPOINT DE ACCESO LIBRE                    
+                    auth.requestMatchers("/api/autenticacion/login", "/mibodega/login", "/css/**", "/js/**", "/SVG/**").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/vendedor/**").hasAnyRole("VENDEDOR", "ADMIN");
                     //ENDPOINT CON ACCESO CONTROLADO POR SUTENTICACIÓN
@@ -88,6 +97,9 @@ public class ConfiguracionSeguridad {
                                 .migrateSession()                
                         ) 
                  */
+                )
+                .exceptionHandling(e -> e
+                    .authenticationEntryPoint((peticion, respuesta, excepcion) -> respuesta.sendRedirect("/mibodega/login"))
                 )
                 .addFilterBefore(filtroAutenticacionJwt(), UsernamePasswordAuthenticationFilter.class)
                 //ESTABLECE LA CONFIGURACIÓN

@@ -16,11 +16,14 @@ public class UtilidadJwt {
     
     private final SecretKey llaveSecreta;
     
-    public UtilidadJwt(@Value("${jwt.secret")String secreto) {
+    public UtilidadJwt(@Value("${jwt.secret}")String secreto) {
+        if(secreto == null || secreto.length() < 32) {
+            throw new IllegalArgumentException("jwt.secret en application.properties debe definirse con mínimo 32 caracteres.");
+        }
         this.llaveSecreta = Keys.hmacShaKeyFor(secreto.getBytes(StandardCharsets.UTF_8));
     }
     
-    private final long expiracion = 1000 * 60 * 60 * 10; // 10 horas
+    private final long expiracion = 60 * 60 * 10; // 10 horas
     
     public String generarToken(UserDetails detallesUsuario) {
         return Jwts.builder()

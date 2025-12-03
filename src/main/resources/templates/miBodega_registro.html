@@ -46,7 +46,7 @@
                 <div class="nav flex-column">
                     <a th:href="@{/mibodega/dashboard}"><button class="btn btn-primary">DASHBOARD</button></a>
                     <a th:href="@{/mibodega/ventas}"><button class="btn btn-primary">VENTAS</button></a>
-                    <a th:href="@{/mibodega/registro}"><button class="btn btn-dark">REGISTRO DE COMPRAS</button></a>
+                    <a th:href="@{/mibodega/registro}"><button class="btn btn-dark">CARRITO DE COMPRAS</button></a>
                     <a th:href="@{/mibodega/inventario}"><button class="btn btn-primary">INVENTARIO</button></a>
                     <a th:href="@{/mibodega/cierre}"><button class="btn btn-primary">CIERRE DE CAJA</button></a>
                     <a th:href="@{/mibodega/configuracion}"><button class="btn btn-primary">CONFIGURACIÓN</button></a>
@@ -70,7 +70,7 @@
                         <button type="submit" id="btn-buscar" class="btn btn-success ms-4"><i class="bi bi-search fs-5"></i>Buscar</button>
                         <ul id="resultados-busqueda" class="list-group"></ul>
                     </form>
-                     <form th:action="@{/mibodega/registro/mostrar-todos}" method="get" class="d-flex align-items-center gap-2 mt-3">                                                
+                    <form th:action="@{/mibodega/registro/mostrar-todos}" method="get" class="d-flex align-items-center gap-2 mt-3">                                                
                         <button type="submit" id="btn-buscar" class="btn btn-success ms-4">Mostrar todos</button>
                         <ul id="resultados-busqueda" class="list-group"></ul>
                     </form>
@@ -171,5 +171,38 @@
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <script src="/js/plantilla_MiBodega.js"></script>
+        <script src="../static/js/formulario_jwt.js" type="text/javascript"></script>
+        <!--
+        <script>
+            function agregarProducto(producto, cantidad) {
+                let carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];
+                carrito.push({producto, cantidad});
+                sessionStorage.setItem("carrito", JSON.stringify(carrito));
+            }
+
+
+            async function confirmarSeleccion() {
+                let carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];
+                let venta = {
+                    fechaEmision: new Date(),
+                    detalles: carrito
+                };
+
+                const response = await fetch("/mibodega/registro/confirmar-seleccion", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(venta)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Venta guardada:", data);
+                    sessionStorage.removeItem("carrito"); // limpiar carrito
+                } else {
+                    alert("Error al confirmar selección");
+                }
+            }
+        </script>
+        -->
     </body>
 </html>
