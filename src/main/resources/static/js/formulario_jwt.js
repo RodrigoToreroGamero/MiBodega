@@ -17,6 +17,9 @@ document.querySelectorAll(".form-post").forEach(form => {
                 window.location.href = respuesta.url;
             } else if(respuesta.ok) {
                 console.log("Operacion exitosa");
+                window.location.href = "/";
+            } else if (respuesta.status === 401) {
+                window.location.href = "/mibodega/login";
             } else if(respuesta.status === 403) {
                 alert("No autorizado, por favor iniciar sesión");
                 window.window.location.href="/mibodega/login";

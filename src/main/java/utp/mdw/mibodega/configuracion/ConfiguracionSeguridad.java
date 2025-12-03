@@ -1,5 +1,6 @@
 package utp.mdw.mibodega.configuracion;
 
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +22,10 @@ import org.springframework.web.cors.CorsConfiguration;
 @EnableWebSecurity
 public class ConfiguracionSeguridad {
 
-    @Bean
-    public FiltroAutenticacionJwt filtroAutenticacionJwt() {
-        return new FiltroAutenticacionJwt();
+    private final FiltroAutenticacionJwt filtroAutenticacionJwt;
+
+    public ConfiguracionSeguridad(FiltroAutenticacionJwt filtroAutenticacionJwt) {
+        this.filtroAutenticacionJwt = filtroAutenticacionJwt;
     }
 
     @Bean
@@ -42,13 +44,13 @@ public class ConfiguracionSeguridad {
                 // JWT NO REQUIERE CSRF
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(peticion -> {
-                    CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("http://localhost:8080"));
-                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-                    config.setAllowCredentials(true);
-                    config.setAllowedHeaders(List.of("*"));
-                    return config;                
-                }))
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedOrigins(List.of("http://localhost:8080"));
+            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+            config.setAllowCredentials(true);
+            config.setAllowedHeaders(List.of("*"));
+            return config;
+        }))
                 //CONFIGURA CARACTERÍSTICAS DE SEGURIDAD      
                 .authorizeHttpRequests(auth -> {
                     //ENDPOINT DE ACCESO LIBRE                    
@@ -99,9 +101,17 @@ public class ConfiguracionSeguridad {
                  */
                 )
                 .exceptionHandling(e -> e
-                    .authenticationEntryPoint((peticion, respuesta, excepcion) -> respuesta.sendRedirect("/mibodega/login"))
+                    .authenticationEntryPoint((peticion, respuesta, excepcion) -> {
+                        String aceptar = peticion.getHeader("Accept");
+                        if (aceptar != null && aceptar.contains("text/html")) {
+                         respuesta.sendRedirect("/mibodega/login");
+                        } else {
+                            respuesta.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No autorizado");
+                        }
+
+                    })
                 )
-                .addFilterBefore(filtroAutenticacionJwt(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filtroAutenticacionJwt, UsernamePasswordAuthenticationFilter.class)
                 //ESTABLECE LA CONFIGURACIÓN
                 .build();
     }
@@ -112,11 +122,12 @@ public class ConfiguracionSeguridad {
         return new SessionRegistryImpl();
     }
 
-    //CREA EL HANDLER DEL FORM SUCCESS
+    /*CREA EL HANDLER DEL FORM SUCCESS
     public AuthenticationSuccessHandler successHandler() {
         return ((request, response, authentication) -> {
             //SI ES AUTENTICADO OK DIRIGIR HACIA endpoint index
             response.sendRedirect("/");
         });
     }
+*/
 }

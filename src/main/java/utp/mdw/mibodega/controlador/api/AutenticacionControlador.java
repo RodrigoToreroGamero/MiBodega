@@ -6,7 +6,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -41,17 +46,27 @@ public class AutenticacionControlador {
             String token = utilidadJwt.generarToken(detallesUsuario);
 
             ResponseCookie cookie = ResponseCookie.from("jwt", token)
-                .httpOnly(true)
-                //.secure(true) // solo por https
-                .path("/")
-                .sameSite("Strict") // frontend y backend en el mismo dominio
-                .maxAge(Duration.ofHours(10)) // 10 horas;
-                .build();
+                    .httpOnly(true)
+                    //.secure(true) // solo por https
+                    .path("/")
+                    .sameSite("Strict") // frontend y backend en el mismo dominio
+                    .maxAge(Duration.ofHours(10)) // 10 horas;
+                    .build();
             respuesta.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-            return ResponseEntity.ok("Login correct");
+            return ResponseEntity.ok("Login correcto");
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta o usuario no existe");
+        } catch (DisabledException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("La cuenta está deshabilitada");
+        } catch (LockedException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("La cuenta está bloqueada");
+        } catch (AccountExpiredException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("La cuenta ha expirado");
+        } catch (CredentialsExpiredException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("La contraseña ha expirado");
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error de autenticación");
         }
     }
 }

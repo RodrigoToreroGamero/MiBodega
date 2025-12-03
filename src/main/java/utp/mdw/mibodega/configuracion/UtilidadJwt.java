@@ -23,7 +23,7 @@ public class UtilidadJwt {
         this.llaveSecreta = Keys.hmacShaKeyFor(secreto.getBytes(StandardCharsets.UTF_8));
     }
     
-    private final long expiracion = 60 * 60 * 10; // 10 horas
+    private final long expiracion = 1000 * 60 * 60 * 10; // 10 horas
     
     public String generarToken(UserDetails detallesUsuario) {
         return Jwts.builder()
