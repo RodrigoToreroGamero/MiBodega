@@ -89,7 +89,7 @@
 
                 <div class="subcuadro">
                     <div class="row fw-bold border-bottom pb-2 mb-2 text-center">
-                        <div class="col">ID</div>
+                        <div class="col">Codigo</div>
                         <div class="col">Nombre</div>
                         <div class="col">Descripción</div>
                         <div class="col">Categoría</div>
@@ -100,7 +100,7 @@
 
                     <!-- 🟢 Iteración de productos -->
                     <div class="row text-center border-bottom py-2" th:each="producto : ${productos}">
-                        <div class="col" th:text="${producto.id}">1</div>
+                        <div class="col" th:text="${producto.codigo}">1</div>
                         <div class="col" th:text="${producto.nombre}">Producto</div>
                         <div class="col" th:text="${producto.descripcion}">Descripción</div>
                         <div class="col" th:text="${producto.categoria.nombre}">Categoría</div>
