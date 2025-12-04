@@ -54,7 +54,7 @@ public class ConfiguracionSeguridad {
                 //CONFIGURA CARACTERÍSTICAS DE SEGURIDAD      
                 .authorizeHttpRequests(auth -> {
                     //ENDPOINT DE ACCESO LIBRE                    
-                    auth.requestMatchers("/api/autenticacion/login", "/mibodega/login", "/css/**", "/js/**", "/SVG/**").permitAll();
+                    auth.requestMatchers("/api/autenticacion/login", "/mibodega/login", "/css/**", "/js/**", "/SVG/**", "/favicon.ico", "/error").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/vendedor/**").hasAnyRole("VENDEDOR", "ADMIN");
                     //ENDPOINT CON ACCESO CONTROLADO POR SUTENTICACIÓN
