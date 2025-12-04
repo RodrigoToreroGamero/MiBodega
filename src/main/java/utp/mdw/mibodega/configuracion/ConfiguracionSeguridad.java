@@ -54,11 +54,13 @@ public class ConfiguracionSeguridad {
                 //CONFIGURA CARACTERÍSTICAS DE SEGURIDAD      
                 .authorizeHttpRequests(auth -> {
                     //ENDPOINT DE ACCESO LIBRE                    
-                    auth.requestMatchers("/api/autenticacion/login", "/mibodega/login", "/css/**", "/js/**", "/SVG/**").permitAll();
+                    auth.requestMatchers("/api/autenticacion/login", "/mibodega/login", "/css/**", "/js/**", "/SVG/**", "/static/**").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/vendedor/**").hasAnyRole("VENDEDOR", "ADMIN");
-                    //ENDPOINT CON ACCESO CONTROLADO POR SUTENTICACIÓN
-                    auth.anyRequest().authenticated();
+                    auth.requestMatchers("/mibodega/**").authenticated();  // <-- Antes del anyRequest
+                    auth.requestMatchers("/api/notificaciones").authenticated();  // <-- Antes del anyRequest
+                    //ENDPOINT CON ACCESO CONTROLADO POR AUTENTICACIÓN (AL FINAL)
+                    auth.anyRequest().authenticated();  // <-- Esto va AL FINAL
                 })
                 /*FORMULARIO LOGIN DEFAULT DE ACCESO LIBRE      
                 .formLogin(form -> form
@@ -101,15 +103,15 @@ public class ConfiguracionSeguridad {
                  */
                 )
                 .exceptionHandling(e -> e
-                    .authenticationEntryPoint((peticion, respuesta, excepcion) -> {
-                        String aceptar = peticion.getHeader("Accept");
-                        if (aceptar != null && aceptar.contains("text/html")) {
-                         respuesta.sendRedirect("/mibodega/login");
-                        } else {
-                            respuesta.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No autorizado");
-                        }
+                .authenticationEntryPoint((peticion, respuesta, excepcion) -> {
+                    String aceptar = peticion.getHeader("Accept");
+                    if (aceptar != null && aceptar.contains("text/html")) {
+                        respuesta.sendRedirect("/mibodega/login");
+                    } else {
+                        respuesta.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No autorizado");
+                    }
 
-                    })
+                })
                 )
                 .addFilterBefore(filtroAutenticacionJwt, UsernamePasswordAuthenticationFilter.class)
                 //ESTABLECE LA CONFIGURACIÓN
@@ -129,5 +131,5 @@ public class ConfiguracionSeguridad {
             response.sendRedirect("/");
         });
     }
-*/
+     */
 }
