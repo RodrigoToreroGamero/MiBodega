@@ -10,7 +10,8 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "productos")
-
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

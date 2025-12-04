@@ -14,8 +14,6 @@
 
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-
-
     </head>
 
     <body>
@@ -60,7 +58,7 @@
         </div>
 
         <!-- Contenido principal -->
-        <div class="content">
+        <main class="content">
             <div class="ventas-header d-flex justify-content-between align-items-center mb-3">
                 <h5>INVENTARIO</h5>
                 <div class="dropdown">
@@ -80,10 +78,10 @@
             <div class="cuadro p-4 bg-white rounded shadow-sm">
                 <h5 class="mb-3">Gestión de Inventario</h5>
 
-                <div class="mb-3 d-flex align-items-center gap-2">
-                    <input type="text" class="form-control" placeholder="Buscar producto...">
-                    <button class="btn btn-success btn-ancho" type="button">
-                        <i class="bi bi-plus-circle"></i> Añadir productos
+                <!-- Botón para abrir modal de nuevo producto -->
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevoProducto">
+                        <i class="bi bi-plus-circle"></i> Añadir Producto
                     </button>
                 </div>
 
@@ -105,10 +103,30 @@
                         <div class="col" th:text="${producto.descripcion}">Descripción</div>
                         <div class="col" th:text="${producto.categoria.nombre}">Categoría</div>
                         <div class="col" th:text="${producto.stock}">0</div>
-                        <div class="col">S/ <span th:text="${#numbers.formatDecimal(producto.precioUnitario, 1, 2)}">0.00</span></div>
                         <div class="col">
-                            <button class="btn btn-sm btn-primary">Editar</button>
-                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                            S/ <span th:text="${#numbers.formatDecimal(producto.precioUnitario, 1, 2)}">0.00</span>
+                        </div>
+                        <div class="col d-flex justify-content-center gap-2">
+                            <!-- Botón Editar: abre modal con data-* -->
+                            <button class="btn btn-sm btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarProducto"
+                                    th:attr="data-id=${producto.id},
+                                             data-codigo=${producto.codigo},
+                                             data-nombre=${producto.nombre},
+                                             data-descripcion=${producto.descripcion},
+                                             data-stock=${producto.stock},
+                                             data-precio=${producto.precioUnitario},
+                                             data-categoria-id=${producto.categoria.id},
+                                             data-proveedor-id=${producto.proveedor.id}">
+                                Editar
+                            </button>
+
+                            <!-- Botón Eliminar -->
+                            <form th:action="@{'/mibodega/inventario/eliminar/' + ${producto.id}}" method="get"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');">
+                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
 
@@ -118,12 +136,192 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <footer class="footer py-3 text-center">
-            <span> &copy; 2025 MiBodega. Todos los derechos reservados.</span>
-        </footer>
+
+            <footer class="footer mt-4 py-3 text-center border-top">
+                <span>&copy; 2025 MiBodega. Todos los derechos reservados.</span>
+            </footer>
+
+            <!-- Modal: Añadir Producto -->
+            <div class="modal fade" id="modalNuevoProducto" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <form th:action="@{/mibodega/inventario/agregar}" method="post" th:object="${productoNuevo}">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Añadir Producto</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <!-- Código (opcional) -->
+                      <div class="mb-3">
+                        <label class="form-label">Código</label>
+                        <input type="text" class="form-control" th:field="*{codigo}" placeholder="Opcional, se puede generar automáticamente">
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Nombre</label>
+                          <input type="text" class="form-control" th:field="*{nombre}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Stock</label>
+                          <input type="number" class="form-control" th:field="*{stock}" min="0" required>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" th:field="*{descripcion}" rows="2" required></textarea>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Precio Unitario (S/)</label>
+                          <input type="number" step="0.01" class="form-control" th:field="*{precioUnitario}" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Categoría</label>
+                          <select class="form-select" th:field="*{categoria}" required>
+                            <option value="" disabled selected>Seleccione categoría</option>
+                            <option th:each="cat : ${categorias}"
+                                    th:value="${cat.id}"
+                                    th:text="${cat.nombre}">
+                            </option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Proveedor</label>
+                          <select class="form-select" th:field="*{proveedor}" required>
+                            <option value="" disabled selected>Seleccione proveedor</option>
+                            <option th:each="prov : ${proveedores}"
+                                    th:value="${prov.id}"
+                                    th:text="${prov.nombre}">
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal: Editar Producto -->
+            <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <form th:action="@{/mibodega/inventario/editar}" method="post">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Editar Producto</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <!-- id oculto -->
+                      <input type="hidden" name="id" id="edit-id">
+
+                      <div class="mb-3">
+                        <label class="form-label">Código</label>
+                        <input type="text" class="form-control" name="codigo" id="edit-codigo">
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Nombre</label>
+                          <input type="text" class="form-control" name="nombre" id="edit-nombre" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Stock</label>
+                          <input type="number" class="form-control" name="stock" id="edit-stock" min="0" required>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" name="descripcion" id="edit-descripcion" rows="2" required></textarea>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Precio Unitario (S/)</label>
+                          <input type="number" step="0.01" class="form-control" name="precioUnitario" id="edit-precio" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Categoría</label>
+                          <select class="form-select" name="categoria.id" id="edit-categoria" required>
+                            <option value="" disabled>Seleccione categoría</option>
+                            <option th:each="cat : ${categorias}"
+                                    th:value="${cat.id}"
+                                    th:text="${cat.nombre}">
+                            </option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                          <label class="form-label">Proveedor</label>
+                          <select class="form-select" name="proveedor.id" id="edit-proveedor" required>
+                            <option value="" disabled>Seleccione proveedor</option>
+                            <option th:each="prov : ${proveedores}"
+                                    th:value="${prov.id}"
+                                    th:text="${prov.nombre}">
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+        </main>
+
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/js/plantilla_MiBodega.js"></script>
+
+        <!-- Script para llenar el modal de edición -->
+        <script>
+          const modalEditar = document.getElementById('modalEditarProducto');
+          if (modalEditar) {
+            modalEditar.addEventListener('show.bs.modal', event => {
+              const button = event.relatedTarget;
+
+              const id = button.getAttribute('data-id');
+              const codigo = button.getAttribute('data-codigo');
+              const nombre = button.getAttribute('data-nombre');
+              const descripcion = button.getAttribute('data-descripcion');
+              const stock = button.getAttribute('data-stock');
+              const precio = button.getAttribute('data-precio');
+              const categoriaId = button.getAttribute('data-categoria-id');
+              const proveedorId = button.getAttribute('data-proveedor-id');
+
+              document.getElementById('edit-id').value = id;
+              document.getElementById('edit-codigo').value = codigo || '';
+              document.getElementById('edit-nombre').value = nombre;
+              document.getElementById('edit-descripcion').value = descripcion;
+              document.getElementById('edit-stock').value = stock;
+              document.getElementById('edit-precio').value = precio;
+
+              document.getElementById('edit-categoria').value = categoriaId;
+              document.getElementById('edit-proveedor').value = proveedorId;
+            });
+          }
+        </script>
     </body>
 </html>

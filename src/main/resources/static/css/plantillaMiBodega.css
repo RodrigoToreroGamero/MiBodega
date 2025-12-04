@@ -29,16 +29,15 @@ body {
 }
 .content {
     background-color: #cbd3e1;
-    max-width: 100vw;
-    min-height: calc(100vh - 116px);
+    height: calc(100vh - 60px);
     padding: 20px;
 }
 
 .footer {
     background-color: #4060B2;
     color: #fff;
-    /*width: 100vw;*/
+    width: 100vw;
     left: 0;
-    /*margin-left: calc(-50vw + 50%);*/
+    margin-left: calc(-50vw + 50%);
     position: relative;
 }

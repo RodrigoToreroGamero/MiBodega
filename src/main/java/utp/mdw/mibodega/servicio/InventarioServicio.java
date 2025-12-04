@@ -7,6 +7,7 @@ import utp.mdw.mibodega.modelo.Inventario;
 import utp.mdw.mibodega.repositorio.CategoriaRepositorio;
 import utp.mdw.mibodega.repositorio.InventarioRepositorio;
 import utp.mdw.mibodega.repositorio.ProductoRepositorio;
+import utp.mdw.mibodega.repositorio.ProveedorRepositorio;
 
 @Service
 public class InventarioServicio {
@@ -17,6 +18,8 @@ public class InventarioServicio {
     private ProductoRepositorio productoRepositorio;
     @Autowired
     private CategoriaRepositorio categoriaRepositorio;
+    @Autowired
+    private ProveedorRepositorio proveedorRepositorio;
 
     public List<Inventario> listarTodo() {
         return inventarioRepositorio.findAll();
@@ -60,6 +63,6 @@ public class InventarioServicio {
 
             productoRepositorio.save(existente);
         }
-    
+    }
 }
-}
+
