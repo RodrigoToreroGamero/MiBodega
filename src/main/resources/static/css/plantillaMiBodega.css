@@ -1,13 +1,32 @@
+/* ✅ PASO 1: ESTRUCTURA BASE */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
     background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
 }
+
+/* ✅ PASO 4: CONTENEDOR GENERAL */
+.layout {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ------------------ SIDEBAR ------------------ */
 .offcanvas {
     width: 250px !important;
 }
+
 .sidebar .user i {
     font-size: 50px;
     color: #7E7E7E;
 }
+
 .sidebar .nav button {
     width: 100%;
     margin-bottom: 10px;
@@ -15,9 +34,12 @@ body {
     background-color: #4060B2;
     border: none;
 }
+
 .sidebar .nav button:hover {
     background-color: #132656;
 }
+
+/* ------------------ HEADER ------------------ */
 .header {
     height: 60px;
     background: #fff;
@@ -27,18 +49,21 @@ body {
     justify-content: space-between;
     padding: 0 20px;
 }
+
+/* ✅ PASO 2: CONTENT CORRECTO */
 .content {
     background-color: #cbd3e1;
-    max-width: 100vw;
-    min-height: calc(100vh - 116px);
+    flex: 1;
+    width: 100%;
     padding: 20px;
 }
 
+/* ✅ PASO 3: FOOTER CORRECTO */
 .footer {
     background-color: #4060B2;
     color: #fff;
-    /*width: 100vw;*/
-    left: 0;
-    /*margin-left: calc(-50vw + 50%);*/
-    position: relative;
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: auto;
 }

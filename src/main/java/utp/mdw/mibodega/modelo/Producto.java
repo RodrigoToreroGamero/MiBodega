@@ -16,7 +16,7 @@ import jakarta.validation.constraints.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Producto {
 
-    @NotNull
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -62,11 +62,11 @@ public class Producto {
     @JoinColumn(name = "id_inventario", nullable = false)
     private Inventario inventario;
 
-    @NotNull
+    
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MovimientoInventario> movimientos;
 
-    @NotNull
+    
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleVenta> detallesVenta;
 
