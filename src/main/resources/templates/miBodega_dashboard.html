@@ -64,11 +64,11 @@
                     <i class="bi bi-funnel"></i> Filtrar Categorías
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">Año</a></li>
-                    <li><a class="dropdown-item" href="#">Mes</a></li>
-                    <li><a class="dropdown-item" href="#">Semana</a></li>
-                    <li><a class="dropdown-item" href="#">Hoy</a></li>
-                    <li><a class="dropdown-item" href="#">Todos</a></li>
+                    <li><a class="dropdown-item" th:href="@{/mibodega/dashboard(filtro='anio')}">Año</a></li>
+                    <li><a class="dropdown-item" th:href="@{/mibodega/dashboard(filtro='mes')}">Mes</a></li>
+                    <li><a class="dropdown-item" th:href="@{/mibodega/dashboard(filtro='semana')}">Semana</a></li>
+                    <li><a class="dropdown-item" th:href="@{/mibodega/dashboard(filtro='hoy')}">Hoy</a></li>
+                    <li><a class="dropdown-item" th:href="@{/mibodega/dashboard(filtro='todos')}">Todos</a></li>
                 </ul>
 
             </div>

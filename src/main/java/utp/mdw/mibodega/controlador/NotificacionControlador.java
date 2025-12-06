@@ -26,4 +26,5 @@ public class NotificacionControlador {
     public List<Notificacion> obtenerNotificacionesRecientes() {
         return notificacionServicio.obtenerUltimasNotificaciones(5);
     }
+    
 }
