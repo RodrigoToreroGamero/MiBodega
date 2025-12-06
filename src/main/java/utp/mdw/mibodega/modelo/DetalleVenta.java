@@ -13,7 +13,7 @@ import jakarta.validation.constraints.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class DetalleVenta {
     
-    @NotNull
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

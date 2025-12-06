@@ -15,4 +15,8 @@ public class UsuarioServicio {
     public Usuario obtenerPorId(Long id) {
         return this.repo.findById(id).orElse(null);
     }
+    
+    public Usuario obtenerPorCorreo(String correo) {
+        return this.repo.findByCorreo(correo).orElse(null);
+    }
 }

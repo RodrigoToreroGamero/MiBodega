@@ -1,6 +1,5 @@
 package utp.mdw.mibodega.controlador;
 
-import jakarta.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +54,7 @@ public class RegistroControlador {
     }
 
     @GetMapping("/registro")
-    public String mostrarRegistro(Model model, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados) {
+    public String mostrarRegistro(Model model, @ModelAttribute("detallesSeleccionados") List<DetalleVenta> detallesSeleccionados) {
         
         String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yy"));
         String hora = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
@@ -67,7 +68,7 @@ public class RegistroControlador {
     }
 
     @GetMapping("/registro/buscar")
-    public String buscar(@RequestParam String busquedaNombreParcial, Model model, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados) {
+    public String buscar(@RequestParam String busquedaNombreParcial, Model model, @ModelAttribute("detallesSeleccionados") List<DetalleVenta> detallesSeleccionados) {
         List<Producto> productos = null;
 
         if (busquedaNombreParcial != null && !busquedaNombreParcial.isBlank()) {
@@ -86,7 +87,7 @@ public class RegistroControlador {
     }
 
     @GetMapping("/registro/mostrar-todos")
-    public String mostrarTodos(Model model, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados) {
+    public String mostrarTodos(Model model, @ModelAttribute("detallesSeleccionados") List<DetalleVenta> detallesSeleccionados) {
         List<Producto> productos = this.productoServicio.obtenerTodos();
         if (productos != null && !productos.isEmpty()) {
             productos.removeIf(Objects::isNull);
@@ -100,7 +101,7 @@ public class RegistroControlador {
     }
 
     @PostMapping("/registro/seleccionar")
-    public String seleccionarProducto(@RequestParam Long idProducto, Model model, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados) {
+    public String seleccionarProducto(@RequestParam Long idProducto, Model model, @ModelAttribute("detallesSeleccionados") List<DetalleVenta> detallesSeleccionados) {
         Producto p = this.productoServicio.obtenerPorId(idProducto);
         if (p != null) {
             model.addAttribute("productoSeleccionado", p);
@@ -111,7 +112,7 @@ public class RegistroControlador {
     }
 
     @PostMapping("/registro/confirmar-seleccion")
-    public String confirmarSeleccion(@RequestParam Long idProducto, @RequestParam Integer cantidad, Model model, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados, @ModelAttribute("venta") Venta venta) {
+    public String confirmarSeleccion(@RequestParam Long idProducto, @RequestParam Integer cantidad, Model model, @ModelAttribute("detallesSeleccionados") List<DetalleVenta> detallesSeleccionados, @ModelAttribute("venta") Venta venta) {
         Producto p = this.productoServicio.obtenerPorId(idProducto);
 
         if (p != null) {
@@ -140,7 +141,7 @@ public class RegistroControlador {
     }
 
     @PostMapping("/registro/eliminar-seleccion")
-    public String eliminarSeleccion(@RequestParam Long idProducto, Model model, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados) {
+    public String eliminarSeleccion(@RequestParam Long idProducto, Model model, @ModelAttribute("detallesSeleccionados") List<DetalleVenta> detallesSeleccionados) {
         Producto p = this.productoServicio.obtenerPorId(idProducto);
 
         int indice = -1;
@@ -160,14 +161,17 @@ public class RegistroControlador {
     }
 
     @PostMapping("/registro/simple")
-    public String registroSimple(@ModelAttribute Venta venta, Model model, SessionStatus status, @ModelAttribute("detallesSeleccionados") @Valid List<DetalleVenta> detallesSeleccionados) {
+    public String registroSimple(@ModelAttribute Venta venta, Model model, SessionStatus status, @ModelAttribute("detallesSeleccionados") List<DetalleVenta> detallesSeleccionados) {
         venta.setFechaEmision(LocalDateTime.now());
 
         if (venta.getEstado() == null) {
             venta.setEstado(Estado.pendiente);
         }
 
-        Usuario u = this.usuarioServicio.obtenerPorId(1L); // Valor asignado para pruebas, ELIMINAR una vez exista login.
+        Authentication autenticacion = SecurityContextHolder.getContext().getAuthentication();
+        String correo = autenticacion.getName();
+        
+        Usuario u = this.usuarioServicio.obtenerPorCorreo(correo);
         if (u == null) {
             return "error";
         }
@@ -187,7 +191,7 @@ public class RegistroControlador {
             }
         }
 
-        Venta ventaSimple = this.ventaServicio.guardarVentaSimple(venta);
+        this.ventaServicio.guardarVentaSimple(venta);
 
         status.setComplete();
         return "miBodega_registro";
