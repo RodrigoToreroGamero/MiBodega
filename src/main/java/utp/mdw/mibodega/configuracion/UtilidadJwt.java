@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+
 
 @Component
 public class UtilidadJwt {
@@ -28,7 +30,8 @@ public class UtilidadJwt {
         this.llaveSecreta = Keys.hmacShaKeyFor(secreto.getBytes(StandardCharsets.UTF_8));
     }
     
-    private final long expiracion = 1000 * 60 * 60 * 10; // 10 horas
+    @Value("${jwt.expiration}")
+    private long expiracion; // 10 horas
     
     public String generarToken(UserDetails detallesUsuario) {
         return Jwts.builder()

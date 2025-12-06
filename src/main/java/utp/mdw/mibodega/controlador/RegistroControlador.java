@@ -33,7 +33,7 @@ import utp.mdw.mibodega.servicio.VentaServicio;
 
 @Controller
 @RequestMapping("/mibodega")
-@SessionAttributes({"detalles", "venta"})
+//@SessionAttributes({"detalles", "venta"})
 public class RegistroControlador {
 
     @Autowired
@@ -71,6 +71,7 @@ public class RegistroControlador {
         return "miBodega_registro";
     }
 
+    /*
     @GetMapping("/registro/buscar")
     public String buscar(@RequestParam String busquedaNombreParcial, Model model, @ModelAttribute("detalles") @Valid List<DetalleVenta> detalles) {
         List<Producto> productos = null;
@@ -116,6 +117,7 @@ public class RegistroControlador {
     }
 
     @PostMapping("/registro/confirmar-seleccion")
+    */
     /*
     @ResponseBody    
     public ResponseEntity<Venta> confirmarSeleccion(@RequestBody Venta venta) {
@@ -130,6 +132,7 @@ public class RegistroControlador {
         Venta guardada = this.ventaServicio.guardarVentaSimple(venta);
         return ResponseEntity.ok(guardada);
     */
+    /*
     public String confirmarSeleccion(@RequestParam Long idProducto, @RequestParam Integer cantidad, Model model, @ModelAttribute("detalles") @Valid List<DetalleVenta> detalles, @ModelAttribute("venta") Venta venta) {
         Producto p = this.productoServicio.obtenerPorId(idProducto);
 
@@ -215,4 +218,5 @@ public class RegistroControlador {
         status.setComplete();
         return "miBodega_registro";
     }
+*/
 }

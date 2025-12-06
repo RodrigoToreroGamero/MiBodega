@@ -1,10 +1,8 @@
 package utp.mdw.mibodega.controlador.api;
 
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.Duration;
-import org.springframework.http.HttpHeaders;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +34,7 @@ public class AutenticacionControlador {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginPeticionDTO peticion, HttpServletResponse respuesta) {
+    public ResponseEntity<?> login(@RequestBody LoginPeticionDTO peticion, HttpServletResponse respuesta) {
         try {
             Authentication autenticacion = this.autenticador.authenticate(
                     new UsernamePasswordAuthenticationToken(peticion.getCorreo(), peticion.getContrasenia())
@@ -45,6 +43,9 @@ public class AutenticacionControlador {
             UserDetails detallesUsuario = (UserDetails) autenticacion.getPrincipal();
             String token = utilidadJwt.generarToken(detallesUsuario);
 
+            return ResponseEntity.ok(Map.of("jwt", token));
+            
+            /*
             ResponseCookie cookie = ResponseCookie.from("jwt", token)
                     .httpOnly(true)
                     //.secure(true) // solo por https
@@ -52,9 +53,9 @@ public class AutenticacionControlador {
                     .sameSite("Lax") // frontend y backend en el mismo dominio
                     .maxAge(Duration.ofHours(10)) // 10 horas;
                     .build();
-            respuesta.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-
+            respuesta.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());           
             return ResponseEntity.ok("Login correcto");
+            */
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta o usuario no existe");
         } catch (DisabledException e) {

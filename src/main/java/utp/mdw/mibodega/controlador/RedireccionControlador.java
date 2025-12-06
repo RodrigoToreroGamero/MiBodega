@@ -8,6 +8,6 @@ public class RedireccionControlador {
     
     @GetMapping("/")
     public String redirigir() {
-        return "redirect:/mibodega/dashboard";
+        return "redirect:/mibodega/login";
     }
 }

@@ -5,13 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>MiBodega</title>
 
+        
+        <script src="/js/redireccion_jwt.js" type="text/javascript"></script>
+        
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Referencia a los css -->
         <link href="/css/plantillaMiBodega.css" rel="stylesheet" type="text/css"/>
         <link href="/css/miBodega_registro.css" rel="stylesheet" type="text/css"/>
-
     </head>
     <body>
         <!-- Header -->
@@ -61,103 +63,50 @@
                 <h5>REGISTRAR COMPRAS</h5>
             </div>
 
-            <section class="contenedor">
-                <div class="caja">
-                    <h5>Seleccionar productos para vender:</h5>
+            <form id="formBuscarProducto" class="d-flex align-items-center gap-2 mt-3">
+                <input id="busqueda-producto" type="text" class="form-control" placeholder="Nombre del producto...">                        
+                <button type="submit" class="btn btn-success ms-4">
+                    <i class="bi bi-search fs-5"></i>Buscar
+                </button>
+            </form>
 
-                    <form id="formBuscarProducto" th:action="@{/mibodega/registro/buscar}" method="get" class="d-flex align-items-center gap-2 mt-3">
-                        <input id="busqueda-producto" name="busquedaNombreParcial" type="text" class="form-control" placeholder="Nombre del producto...">                        
-                        <button type="submit" id="btn-buscar" class="btn btn-success ms-4"><i class="bi bi-search fs-5"></i>Buscar</button>
-                        <ul id="resultados-busqueda" class="list-group"></ul>
-                    </form>
-                    <form id="formMostrarTodo" th:action="@{/mibodega/registro/mostrar-todos}" method="get" class="d-flex align-items-center gap-2 mt-3">                                                
-                        <button type="submit" id="btn-buscar" class="btn btn-success ms-4">Mostrar todos</button>
-                        <ul id="resultados-busqueda" class="list-group"></ul>
-                    </form>
+            <button id="btnMostrarTodos" class="btn btn-success ms-4">Mostrar todos</button>
 
-                    <table id="tabla-resultados" class="table table-bordered" th:if="${productos != null}">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Stock</th>
-                                <th>Precio</th>
-                                <th>Acción</th>                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="producto : ${productos}" th:if="${producto != null}">
-                                <td th:text="${producto.nombre}">Nombre</td>
-                                <td th:text="${producto.stock}">Stock</td>
-                                <td th:text="${producto.precioUnitario}">Precio</td>
-                                <td>
-                                    <form id="formSeleccionarProducto" th:action="@{/mibodega/registro/seleccionar}" method="post">
-                                        <input type="hidden" name="idProducto" th:value="${producto.id}"/>
-                                        <button type="submit" class="btn btn-success ms-4"><i class="bi bi-plus-circle">Seleccionar</i></button>                                        
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div th:if="${sinResultados}">
-                        <p>No se encontraron productos con ese nombre</p>
-                    </div>
-
-                    <div th:if="${productoSeleccionado != null}" class="mt-4">
-                        <form id="formConfirmarSeleccion" th:action="@{/mibodega/registro/confirmar-seleccion}" method="post" class="d-flex gap-3">
-                            <input type="hidden" name="idProducto" th:value="${productoSeleccionado.id}" />
-                            <span>¿Cuántas unidades de <b th:text="${productoSeleccionado.nombre}">Producto</b>?</span>
-                            <input type="number" name="cantidad" min="1" value="1" class="form-control" style="width:80px;" />
-                            <button type="submit" class="btn btn-primary">Agregar</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
+            <table id="tabla-resultados" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Stock</th>
+                        <th>Precio</th>
+                        <th>Acción</th>                                
+                    </tr>
+                </thead>
+                <tbody id="tbody-resultados">
+                    <!-- Se llenará dinámicamente con JS -->
+                </tbody>
+            </table>
 
             <section class="cuadro">
-                <h5>PRODUCTOS SELECCIONADOS </h5>
-                <table th:if="${detalles != null}">
+                <h5>PRODUCTOS SELECCIONADOS</h5>
+                <table>
                     <thead>
                         <tr>
-                            <td class="col fw-medium">Nombre</td>
-                            <td class="col fw-medium">Cantidad</td>
-                            <td class="col fw-medium">Precio Unitario</td>
-                            <td class="col fw-medium">Precio Total</td>
-                            <td class="col fw-medium">Acción</td>
+                            <td>Nombre</td>
+                            <td>Cantidad</td>
+                            <td>Precio Unitario</td>
+                            <td>Precio Total</td>
+                            <td>Acción</td>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr th:each="detalle : ${detalles}">
-                            <td th:text="${detalle.producto.nombre}">Nombre</td>
-                            <td th:text="${detalle.cantidad}">Cantidad</td>
-                            <td th:text="${detalle.precioUnitario}">Precio Unitario</td>
-                            <td th:text="${detalle.precioTotal}">Precio Total</td>
-                            <td>
-                                <form th:action="@{/mibodega/registro/eliminar-seleccion}" method="post">
-                                    <input type="hidden" name="idProducto" th:value="${detalle.producto.id}"/>
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>Eliminar</button>
-                                </form>
-                            </td>
-                        </tr>                   
+                    <tbody id="tbody-carrito">
+                        <!-- Se llenará dinámicamente con JS -->
                     </tbody>
                 </table>
             </section>
 
-            <section class="d-flex justify-content-between align-items-center my-4">
-                <form id="formRegistroSimple" th:action="@{/mibodega/registro/simple}" method="post">
-                    <div th:each="detalle, iteracion : ${detalles}">
-                        <input type="hidden" th:name="detalles[__${iteracion.index}__].producto.id" th:value="${detalle.producto.id}"/>
-                        <input type="hidden" th:name="detalles[__${iteracion.index}__].cantidad" th:value="${detalle.cantidad}"/>
-                        <input type="hidden" th:name="detalles[__${iteracion.index}__].precioUnitario" th:value="${detalle.precioUnitario}"/>
-                        <input type="hidden" th:name="detalles[__${iteracion.index}__].precioTotal" th:value="${detalle.precioTotal}"/>
-                    </div>
-                    <button class="btn btn-volver">
-                        <i class="bi"></i> Registro simple
-                    </button>
-                </form>
-                <button class="btn btn-guardar">
-                    Registrar boleta <i class="bi"></i>
-                </button>
-            </section>
+            <form id="formRegistroSimple">
+                <button class="btn btn-volver">Registro simple</button>
+            </form>
         </main>
 
 
@@ -171,38 +120,133 @@
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <script src="/js/plantilla_MiBodega.js"></script>
-        <script src="/js/formulario_jwt.js" type="text/javascript"></script>
-        <!--
-        <script>
-            function agregarProducto(producto, cantidad) {
-                let carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];
-                carrito.push({producto, cantidad});
-                sessionStorage.setItem("carrito", JSON.stringify(carrito));
-            }
+        <script src="/js/miBodega_registro.js" type="text/javascript"></script>
 
-
-            async function confirmarSeleccion() {
-                let carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];
-                let venta = {
-                    fechaEmision: new Date(),
-                    detalles: carrito
-                };
-
-                const response = await fetch("/mibodega/registro/confirmar-seleccion", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(venta)
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log("Venta guardada:", data);
-                    sessionStorage.removeItem("carrito"); // limpiar carrito
-                } else {
-                    alert("Error al confirmar selección");
-                }
-            }
-        </script>
-        -->
     </body>
 </html>
+
+<!--
+<section class="contenedor">
+           <div class="caja">
+               <h5>Seleccionar productos para vender:</h5>
+
+               <form id="formBuscarProducto" th:action="@{/mibodega/registro/buscar}" method="get" class="d-flex align-items-center gap-2 mt-3">
+                   <input id="busqueda-producto" name="busquedaNombreParcial" type="text" class="form-control" placeholder="Nombre del producto...">                        
+                   <button type="submit" id="btn-buscar" class="btn btn-success ms-4"><i class="bi bi-search fs-5"></i>Buscar</button>
+                   <ul id="resultados-busqueda" class="list-group"></ul>
+               </form>                                        
+               <form id="formMostrarTodo" th:action="@{/mibodega/registro/mostrar-todos}" method="get" class="d-flex align-items-center gap-2 mt-3">                                                
+                   <button type="submit" id="btn-buscar" class="btn btn-success ms-4">Mostrar todos</button>
+                   <ul id="resultados-busqueda" class="list-group"></ul>
+               </form>
+
+               <table id="tabla-resultados" class="table table-bordered" th:if="${productos != null}">
+                   <thead>
+                       <tr>
+                           <th>Nombre</th>
+                           <th>Stock</th>
+                           <th>Precio</th>
+                           <th>Acción</th>                                
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr th:each="producto : ${productos}" th:if="${producto != null}">
+                           <td th:text="${producto.nombre}">Nombre</td>
+                           <td th:text="${producto.stock}">Stock</td>
+                           <td th:text="${producto.precioUnitario}">Precio</td>
+                           <td>
+                               
+                               <form id="formSeleccionarProducto" th:action="@{/mibodega/registro/seleccionar}" method="post">
+                                   <input type="hidden" name="idProducto" th:value="${producto.id}"/>
+                                   <button type="submit" class="btn btn-success ms-4"><i class="bi bi-plus-circle">Seleccionar</i></button>                                        
+                               </form>
+                               
+                               
+                               <form id="formSeleccionarProducto">
+                                   <input type="hidden" name="idProducto" th:value="${producto.id}" />
+                                   <button type="submit" class="btn btn-success ms-4">
+                                       <i class="bi bi-plus-circle"></i> Seleccionar
+                                   </button>
+                               </form>
+                               
+                               <button class="btn btn-success btnSeleccionar" th:attr="data-id=${producto.id}">
+                                   <i class="bi bi-plus-circle"></i> Seleccionar
+                               </button>
+                           </td>
+                       </tr>
+                   </tbody>
+               </table>
+               <div th:if="${sinResultados}">
+                   <p>No se encontraron productos con ese nombre</p>
+               </div>
+
+               <div th:if="${productoSeleccionado != null}" class="mt-4">
+                   <form id="formConfirmarSeleccion" th:action="@{/mibodega/registro/confirmar-seleccion}" method="post" class="d-flex gap-3">
+                       <input type="hidden" name="idProducto" th:value="${productoSeleccionado.id}" />
+                       <span>¿Cuántas unidades de <b th:text="${productoSeleccionado.nombre}">Producto</b>?</span>
+                       <input type="number" name="cantidad" min="1" value="1" class="form-control" style="width:80px;" />
+                       <button type="submit" class="btn btn-primary">Agregar</button>
+                   </form>
+               </div>
+           </div>
+       </section>
+
+       <section class="cuadro">
+           <h5>PRODUCTOS SELECCIONADOS </h5>
+           <table th:if="${detalles != null}">
+               <thead>
+                   <tr>
+                       <td class="col fw-medium">Nombre</td>
+                       <td class="col fw-medium">Cantidad</td>
+                       <td class="col fw-medium">Precio Unitario</td>
+                       <td class="col fw-medium">Precio Total</td>
+                       <td class="col fw-medium">Acción</td>
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr th:each="detalle : ${detalles}">
+                       <td th:text="${detalle.producto.nombre}">Nombre</td>
+                       <td th:text="${detalle.cantidad}">Cantidad</td>
+                       <td th:text="${detalle.precioUnitario}">Precio Unitario</td>
+                       <td th:text="${detalle.precioTotal}">Precio Total</td>
+                       <td>
+                           
+                           <form id="formEliminarSeleccion" th:action="@{/mibodega/registro/eliminar-seleccion}" method="post">
+                               <input type="hidden" name="idProducto" th:value="${detalle.producto.id}"/>
+                               <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>Eliminar</button>
+                           </form>
+                           
+                           
+                           <form id="formEliminarSeleccion">
+                               <input type="hidden" name="idProducto" th:value="${detalle.producto.id}" />
+                               <button type="submit" class="btn btn-sm btn-danger">
+                                   <i class="bi bi-trash"></i> Eliminar
+                               </button>
+                           </form>
+                           
+                           <button class="btn btn-sm btn-danger btnEliminar" th:attr="data-id=${detalle.producto.id}">
+                               <i class="bi bi-trash"></i> Eliminar
+                           </button>
+                       </td>
+                   </tr>                   
+               </tbody>
+           </table>
+       </section>
+
+       <section class="d-flex justify-content-between align-items-center my-4">
+           <form id="formRegistroSimple" th:action="@{/mibodega/registro/simple}" method="post">
+               <div th:each="detalle, iteracion : ${detalles}">
+                   <input type="hidden" th:name="detalles[__${iteracion.index}__].producto.id" th:value="${detalle.producto.id}"/>
+                   <input type="hidden" th:name="detalles[__${iteracion.index}__].cantidad" th:value="${detalle.cantidad}"/>
+                   <input type="hidden" th:name="detalles[__${iteracion.index}__].precioUnitario" th:value="${detalle.precioUnitario}"/>
+                   <input type="hidden" th:name="detalles[__${iteracion.index}__].precioTotal" th:value="${detalle.precioTotal}"/>
+               </div>
+               <button class="btn btn-volver">
+                   <i class="bi"></i> Registro simple
+               </button>
+           </form>
+           <button class="btn btn-guardar">
+               Registrar boleta <i class="bi"></i>
+           </button>
+       </section>
+-->

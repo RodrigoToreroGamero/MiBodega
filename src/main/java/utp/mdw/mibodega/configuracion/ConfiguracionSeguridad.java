@@ -47,17 +47,20 @@ public class ConfiguracionSeguridad {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowedOrigins(List.of("http://localhost:8080"));
             config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-            config.setAllowCredentials(true);
+            config.setAllowCredentials(false);
             config.setAllowedHeaders(List.of("*"));
             return config;
         }))
                 //CONFIGURA CARACTERÍSTICAS DE SEGURIDAD      
                 .authorizeHttpRequests(auth -> {
                     //ENDPOINT DE ACCESO LIBRE                    
-                    auth.requestMatchers("/api/autenticacion/login", "/mibodega/login", "/css/**", "/js/**", "/SVG/**", "/favicon.ico", "/error").permitAll();
-                    auth.requestMatchers("/admin/**").hasRole("ADMIN");
-                    auth.requestMatchers("/vendedor/**").hasAnyRole("VENDEDOR", "ADMIN");
+                    auth.requestMatchers("/api/autenticacion/login", "/mibodega/login", "/mibodega/**", "/", "/css/**", "/js/**", "/SVG/**", "/favicon.ico", "/error").permitAll();                    
+                    //auth.requestMatchers("/api/autenticacion/login", "/mibodega/login", "/", "/css/**", "/js/**", "/SVG/**", "/favicon.ico", "/error").permitAll();                    
+                    auth.requestMatchers("/mibodega/admin/**").hasRole("ADMIN");
+                    auth.requestMatchers("/mibodega/vendedor/**").hasAnyRole("VENDEDOR", "ADMIN");
                     //ENDPOINT CON ACCESO CONTROLADO POR SUTENTICACIÓN
+                    auth.requestMatchers("/api/**").authenticated();
+                    //auth.requestMatchers("/mibodega/**", "/api/**").authenticated();
                     auth.anyRequest().authenticated();
                 })
                 /*FORMULARIO LOGIN DEFAULT DE ACCESO LIBRE      
@@ -116,18 +119,18 @@ public class ConfiguracionSeguridad {
                 .build();
     }
 
-    //MÉTODO PARA REGISTRO DE LA SESIÓN DE USUARIO
+    /*MÉTODO PARA REGISTRO DE LA SESIÓN DE USUARIO
     @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
 
-    /*CREA EL HANDLER DEL FORM SUCCESS
+    CREA EL HANDLER DEL FORM SUCCESS
     public AuthenticationSuccessHandler successHandler() {
         return ((request, response, authentication) -> {
             //SI ES AUTENTICADO OK DIRIGIR HACIA endpoint index
             response.sendRedirect("/");
         });
     }
-*/
+    */
 }

@@ -41,6 +41,7 @@ public class FiltroAutenticacionJwt extends OncePerRequestFilter {
             jwt = cabecera.substring(7);
         }
 
+        /*
         if (jwt == null && peticion.getCookies() != null) {
             for (Cookie cookie : peticion.getCookies()) {
                 //DEBUG 
@@ -54,6 +55,8 @@ public class FiltroAutenticacionJwt extends OncePerRequestFilter {
                 }
             }
         }
+        */
+
         //DEBUG
         this.logger.debug("Token extraído: {}", jwt);
 
