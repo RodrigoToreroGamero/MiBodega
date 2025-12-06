@@ -16,7 +16,7 @@ import jakarta.validation.constraints.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Producto {
 
-    @NotNull
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include

@@ -15,7 +15,7 @@ import jakarta.validation.constraints.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Venta {
 
-    @NotNull
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +28,7 @@ public class Venta {
     @Column(name = "precio_total", precision = 10, scale = 2)
     private BigDecimal precioTotal;
 
-    @NotNull
+    
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = true)
     private Cliente cliente;
@@ -38,7 +38,7 @@ public class Venta {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @NotNull
+    
     @OneToOne(mappedBy = "venta", cascade = CascadeType.ALL)
     private Boleta boleta;
 
