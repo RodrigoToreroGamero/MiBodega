@@ -84,23 +84,26 @@
             </div>
 
             <!-- Resumen de las ventas -->
-            <div class="subcuadro">
-                <div class="row">
-                    <div class="col fw-medium">Nombre</div>
-                    <div class="col fw-medium">Cantidad</div>
-                    <div class="col fw-medium">Ingresos</div>
-                </div>
+            <div class="cuadro">
+                <h5>RESUMEN DE VENTAS</h5>
+                <div class="subcuadro">
+                    <div class="row">
+                        <div class="col fw-medium">Nombre</div>
+                        <div class="col fw-medium">Cantidad</div>
+                        <div class="col fw-medium">Ingresos</div>
+                    </div>
 
-                <!-- Mensaje si está vacío -->
-                <div class="row" th:if="${#lists.isEmpty(resumenVentas)}">
-                    <div class="col text-center text-muted">No hay ventas registradas</div>
-                </div>
+                    <!-- Mensaje si está vacío -->
+                    <div class="row" th:if="${#lists.isEmpty(resumenVentas)}">
+                        <div class="col text-center text-muted">No hay ventas registradas</div>
+                    </div>
 
-                <!-- Datos si hay ventas -->
-                <div class="row" th:each="item : ${resumenVentas}">
-                    <div class="col" th:text="${item.nombreProducto}">Producto</div>
-                    <div class="col" th:text="${item.cantidadVendida}">0</div>
-                    <div class="col" th:text="'S/ ' + ${#numbers.formatDecimal(item.ingresoTotal, 1, 2)}">S/ 0.00</div>
+                    <!-- Datos si hay ventas -->
+                    <div class="row" th:each="item : ${resumenVentas}">
+                        <div class="col" th:text="${item.nombreProducto}">Producto</div>
+                        <div class="col" th:text="${item.cantidadVendida}">0</div>
+                        <div class="col" th:text="'S/ ' + ${#numbers.formatDecimal(item.ingresoTotal, 1, 2)}">S/ 0.00</div>
+                    </div>
                 </div>
             </div>
         </div>
